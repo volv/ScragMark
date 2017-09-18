@@ -1,29 +1,31 @@
-// I'm thinking I might need a background process for context menu reasons mostly
+const bitUrlToken = "de87b3defa9c87bf1bbede1c9e07e415333e781e"
+let mdText = "";
+
 chrome.commands.onCommand.addListener(command => {
   if (command === "ScragMark") {
     addBookmarkToStorage();
   }
 });
 
-var url = "";
-var title = "";
-var mdText = "";
-
 // Bit pyramidy of doom. Look into promisefying?
 function addBookmarkToStorage() {
-  chrome.storage.local.get('mdText', function (result) {
+  chrome.storage.local.get('mdText', result => {
     mdText = (result.mdText) ? result.mdText : "";
 
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    chrome.tabs.query({active: true, currentWindow: true}, tabs => {
       if (tabs.length === 0) return;
-      url = tabs[0].url;
-      title = tabs[0].title;
+      let url = tabs[0].url;
+      let title = tabs[0].title;
 
-      mdText += `\n\n[${title}](${url})`;
-      console.log(mdText)
+      // Shorten URLs
+      fetch(`https://api-ssl.bitly.com/v3/shorten?longURL=${encodeURI(url)}&access_token=${bitUrlToken}`, { credentials: 'omit' })
+      .then(response => response.json())
+      .then(bitUrl => {
+        mdText += `\n\n[${title}](${bitUrl.data.url})`;
 
-      chrome.storage.local.set({'mdText': mdText}, function() {
-        status.innerHTML = "saved";
+        chrome.storage.local.set({'mdText': mdText}, () => {
+          console.log("Saved");
+        });
       });
     });
   });
