@@ -3,26 +3,34 @@
   <head>
     <title>ScragMark</title>
     <style type="text/css">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
       body {
         margin: 10px;
+        overflow: hidden;
       }
 
       h1 {
         font-size: 15px;
+        margin-bottom: 10px;
       }
 
       #container {
+        position: relative;
         align-items: left;
         display: flex;
         justify-content: space-around;
         flex-direction: column;
-        width: 350px;
+        width: 400px;
       }
       
       #mdText {
-        left: 10px;
-        width: 330px;
-        height: 330px;
+        position: relative;
+        width: 400px;
+        height: 400px;
         font-size: 20px;
       }
 
@@ -43,7 +51,7 @@
         <textarea id="mdText" placeholder="Put Markdown Here" width="330" height="330"></textarea>
       </p>
       <p>
-        <span id="status"></span>
+        <span id="status">&nbsp;</span>
       </p>
     </div>
 
