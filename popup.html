@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <title>ScragMark</title>
+    <style type="text/css">
+      body {
+        margin: 10px;
+      }
+
+      h1 {
+        font-size: 15px;
+      }
+
+      #container {
+        align-items: left;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        width: 350px;
+      }
+      
+      #mdText {
+        left: 10px;
+        width: 330px;
+        height: 330px;
+        font-size: 20px;
+      }
+
+      #mdText::placeholder {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+    <h1>ScragMark</h1>
+    
+    <div id="container">
+      <p>
+        <textarea id="mdText" placeholder="Put Markdown Here" width="330" height="330"></textarea>
+      </p>
+      <p>
+        <span id="status"></span>
+      </p>
+    </div>
+
+  <script src="popup.js"></script>
+
+  </body>
+</html>
