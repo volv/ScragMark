@@ -12,6 +12,7 @@ mdText.addEventListener("mousemove", resizeWindow);
 
 document.body.addEventListener("change", saveAll);
 chrome.storage.onChanged.addListener(readStored);
+window.onunload = saveAll;
 
 readStored();
 

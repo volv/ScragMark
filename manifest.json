@@ -10,6 +10,14 @@
     "ScragMark": {
       "suggested_key": { "default": "Alt+S" },
       "description": "ScragMark current URL"
+    },
+    "_execute_browser_action": {
+      "suggested_key": {
+        "windows": "Alt+A",
+        "mac": "Alt+A",
+        "chromeos": "Alt+A",
+        "linux": "Alt+A"
+      }
     }
   },
   "browser_action": {
