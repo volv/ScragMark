@@ -21,7 +21,7 @@ function addBookmarkToStorage() {
       fetch(`https://api-ssl.bitly.com/v3/shorten?longURL=${encodeURI(url)}&access_token=${bitUrlToken}`, { credentials: 'omit' })
       .then(response => response.json())
       .then(bitUrl => {
-        mdText += `\n\n[${title}](${bitUrl.data.url})`;
+        mdText += `\n* [${title}](${bitUrl.data.url})`;
 
         chrome.storage.local.set({'mdText': mdText}, () => {
           console.log("Saved");
