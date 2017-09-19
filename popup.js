@@ -5,14 +5,16 @@ let resizeWindow = debounce(function(e) {
   let width = window.getComputedStyle(mdText,null).getPropertyValue("width");
   document.querySelector("html").style.width = `${Number(width.slice(0, width.length-2))+20}px`;
   console.log(width.slice(0, width.length-2), e.buttons);
-}, 250) 
+}, 0) 
 
 mdText.addEventListener("keydown", () => status.innerHTML = "Modified");
 mdText.addEventListener("mousemove", resizeWindow);
 
 document.body.addEventListener("change", saveAll);
+mdText.addEventListener("keyup", saveAll);
+mdText.addEventListener("mouseup", saveAll);
+
 chrome.storage.onChanged.addListener(readStored);
-window.onunload = saveAll;
 
 readStored();
 
@@ -33,10 +35,8 @@ function saveAll() {
 // N milliseconds. If `immediate` is passed, trigger the function on the
 // leading edge, instead of the trailing.
 function debounce(func, wait, immediate) {
-  console.log("HI")
   var timeout;
   return function() {
-    console.log("HIHI")
     var context = this, args = arguments;
     var later = function() {
       timeout = null;

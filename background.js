@@ -21,10 +21,14 @@ function addBookmarkToStorage() {
       fetch(`https://api-ssl.bitly.com/v3/shorten?longURL=${encodeURI(url)}&access_token=${bitUrlToken}`, { credentials: 'omit' })
       .then(response => response.json())
       .then(bitUrl => {
-        mdText += `\n\n[${title}](${bitUrl.data.url})`;
+        mdText += `\n*[${title}](${bitUrl.data.url})`;
 
         chrome.storage.local.set({'mdText': mdText}, () => {
-          console.log("Saved");
+          chrome.browserAction.setBadgeBackgroundColor({color:[0,0,255,255]});
+          chrome.browserAction.setBadgeText({text:"Saved"});  
+          setTimeout(() => {
+            chrome.browserAction.setBadgeText({text:""});  
+          }, 2000);
         });
       });
     });
