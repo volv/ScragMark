@@ -1,6 +1,6 @@
 {
   "name": "ScragMark",
-  "version": "0.1",
+  "version": "0.2",
   "description": "Markdown Bookmark / Notes",
   "background": {
     "persistent": false,
@@ -10,6 +10,10 @@
     "ScragMark": {
       "suggested_key": { "default": "Alt+S" },
       "description": "ScragMark current URL"
+    },
+    "Open Tab": {
+      "suggested_key": { "default": "Alt+Z" },
+      "description": "Open stored data in new tab with formatting"
     },
     "_execute_browser_action": {
       "suggested_key": {

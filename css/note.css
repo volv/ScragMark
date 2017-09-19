@@ -1,0 +1,12 @@
+body {
+  background: lightgray;
+}
+
+#output {
+  width: 80%;
+  max-width: 800px;
+  background: darkgray;
+  margin: 10px auto;
+  padding: 5px;
+  border: solid black 0.5px;
+}

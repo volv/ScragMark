@@ -23,16 +23,16 @@ h1 {
   display: flex;
   justify-content: space-around;
   flex-direction: column;
-  width: 400px;
 }
 
 #mdText {
+  box-sizing: border-box;
   position: relative;
-  width: 400px;
-  height: 400px;
-  max-height: 530px;
-  max-width: 650px;
   font-size: 18px;
+  min-width: 200px;
+  min-height: 200px;
+  max-height: 465px;
+  max-width: 610px;
 }
 
 #mdText::placeholder {
