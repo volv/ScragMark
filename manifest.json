@@ -4,7 +4,7 @@
   "description": "Markdown Bookmark / Notes",
   "background": {
     "persistent": false,
-    "scripts": ["background.js"]
+    "scripts": ["js/background.js"]
   },
   "commands": {
     "ScragMark": {
