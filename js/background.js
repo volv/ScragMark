@@ -31,6 +31,9 @@ async function addBookmarkToStorage () {
   let tabs = await getTabs();
   let url = tabs[0] ? tabs[0].url : "";
   let title = tabs[0] ? tabs[0].title : "";
+  if (url === "" || title === "") {
+    return;
+  }
   let shortUrl = await getShortBitUrl(url, bitUrlToken);
   let mdText = await getMdText() + `\n* [${title}](${shortUrl})`;
   await setMdText(mdText)
