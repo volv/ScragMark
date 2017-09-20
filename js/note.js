@@ -1,4 +1,4 @@
-var md = window.markdownit({
+const md = window.markdownit({
   highlight: function (str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
@@ -12,6 +12,8 @@ var md = window.markdownit({
   }
 });
 
+const output = document.getElementById("output"); 
+
 const getMdText = () => new Promise((resolve, reject) => {
   chrome.storage.local.get('mdText', result => {
     let mdText = (result.mdText) ? result.mdText : "";
@@ -20,9 +22,11 @@ const getMdText = () => new Promise((resolve, reject) => {
 });
 
 getMdText()
-  .then(mdText => document.getElementById("output").innerHTML = md.render(mdText));
+  .then(mdText => output.innerHTML = md.render(mdText))
+  // Scroll to bottom on page load. Another potential option.
+  .then(() => document.body.scrollTop = document.body.scrollHeight) 
 
 chrome.storage.onChanged.addListener(() => {
   getMdText()
-    .then(mdText => document.getElementById("output").innerHTML = md.render(mdText));
+    .then(mdText => output.innerHTML = md.render(mdText));
 });
