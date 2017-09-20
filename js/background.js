@@ -27,13 +27,8 @@ chrome.commands.onCommand.addListener(command => {
 
 });
 
-const getOptions = () => new Promise((resolve, reject) => {
-  chrome.storage.local.get('options', result => {
-    let shortenUrl = (result.options.shortenUrl) ? result.options.shortenUrl : false;
-    // usage: options = getOptions(); options.shortenUrl. can be extended
-    resolve({shortenUrl: shortenUrl});
-  });
-});
+// temporary solution before config.js is loaded into here:
+let options = {options: {shortenUrl: false}};
 
 async function addBookmarkToStorage () { 
   let tabs = await getTabs();
@@ -43,7 +38,6 @@ async function addBookmarkToStorage () {
     return;
   }
 
-  let options = await getOptions();
   if (options.shortenUrl) {
     url = await getShortBitUrl(url, bitUrlToken)
   } // Otherwise its still the long URL that gets passed in
