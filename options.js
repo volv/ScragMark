@@ -1,9 +1,8 @@
-const checkbox = document.querySelector('input[name=urlShortCheckbox]');
-checkbox.addEventListener('change', function (event) {
-  if (checkbox.checked) {
-      chrome.storage.sync.set({'shortenUrl': true});
-  } else {
-      chrome.storage.sync.set({'shortenUrl': false});
-  } console.log('hey');
-});
-
+const urlShortCheckbox = document.querySelector('input[name=urlShortCheckbox]');
+urlShortCheckbox.addEventListener('change', function (event) {
+    chrome.storage.local.set({options: {'shortenUrl': urlShortCheckbox.checked}}, (response) => {
+    console.dir(urlShortCheckbox.checked);
+    // Can be sure the set function has had time to finish in here
+    console.dir(response);
+    })
+})

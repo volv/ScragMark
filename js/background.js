@@ -27,6 +27,14 @@ chrome.commands.onCommand.addListener(command => {
 
 });
 
+const getOptions = () => new Promise((resolve, reject) => {
+  chrome.storage.local.get('options', result => {
+    let shortenUrl = (result.options.shortenUrl) ? result.options.shortenUrl : false;
+    // usage: options = getOptions(); options.shortenUrl. can be extended
+    resolve({shortenUrl: shortenUrl});
+  });
+});
+
 async function addBookmarkToStorage () { 
   let tabs = await getTabs();
   let url = tabs[0] ? tabs[0].url : "";
@@ -34,9 +42,14 @@ async function addBookmarkToStorage () {
   if (url === "" || title === "") {
     return;
   }
-  let shortUrl = await getShortBitUrl(url, bitUrlToken);
-  let mdText = await getMdText() + `\n* [${title}](${shortUrl})`;
-  await setMdText(mdText)
+
+  let options = await getOptions();
+  if (options.shortenUrl) {
+    url = await getShortBitUrl(url, bitUrlToken)
+  } // Otherwise its still the long URL that gets passed in
+	
+  let mdText = await getMdText() + `\n* [${title}](${url})`;
+  await setMdText(mdText);
   flashSavedBadge();
 }
 

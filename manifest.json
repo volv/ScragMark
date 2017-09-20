@@ -2,6 +2,7 @@
   "name": "ScragMark",
   "version": "0.2",
   "description": "Markdown Bookmark / Notes",
+  "options_page": "options.html",
   "background": {
     "persistent": false,
     "scripts": ["js/background.js"]
