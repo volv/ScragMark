@@ -27,3 +27,34 @@
  
 1. Further styling of new tabs page possibly. Barebones atm
 2. I looked into making it scroll with your position in the popup text box. Doesn't seem like something that is anything close to easy - Especially as they would be of different lengths
+
+# Options
+### Options.js 
+* Load full objects object from storage. Put in variable
+* Use options variable to set the state of the options. Tick or untick boxes etc. 
+* When option changed
+  * Update options variable with that info
+  * Save whole options object to storage
+
+### background.js
+* getOptions function that returns the whole option object
+``` js
+// Use like
+
+let options = await getOptions(); // Got them all
+
+// The option I'm interested in exists. 
+// Can be used as boolean in this case
+// Assigned to variable if needed
+if (options.shortUrl) { 
+  url = await getShortBitUrl(url, bitUrlToken)
+} 
+
+// Stupid example
+if (options.backgroundColour) { // Exists
+  let backgroundColour = options.backgroundColour;
+  doStuffWithIt();
+} else {
+  doDefaultColour();
+}
+```
