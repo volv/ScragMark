@@ -4,6 +4,24 @@ chrome.commands.onCommand.addListener(command => {
 
   if (command === "ScragMark") {
     addBookmarkToStorage()
+
+    // options message test
+    chrome.tabs.query({}, function(tabs) { 
+
+      var myId = chrome.runtime.id;
+      for (var i=tabs.length-1; i>=0; i--) {
+        if (tabs[i].url === `chrome-extension://${myId}/options.html`) {
+          
+          chrome.tabs.sendMessage(tabs[i].id, "GIVE", function(response) {
+            console.dir(response);
+          })
+
+          break;
+        }
+      }
+
+    });
+
   }
 
   if (command === "Open Tab") {

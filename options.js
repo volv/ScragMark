@@ -7,3 +7,8 @@ checkbox.addEventListener('change', function (event) {
   } console.log('hey');
 });
 
+chrome.runtime.onMessage.addListener((message, sender, callback) => {
+  console.log(message);
+  console.log(sender);
+  callback("YO SUP");
+});
