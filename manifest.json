@@ -33,5 +33,6 @@
     "storage",
     "tabs"
   ],
+  "options_page": "options.html",
   "manifest_version": 2
 }
