@@ -66,12 +66,58 @@ const doOnetimeResize = (stored) => {
   mdText.style.height  = height;
 }
 
+// Up 38, Down 40
 mdText.addEventListener("keydown", (e) => {
+  if (e.altKey && e.keyCode === 38) {
+    e.preventDefault();
+    swapLines("Up");
+  }
+  if (e.altKey && e.keyCode === 40) {
+    e.preventDefault();
+    swapLines("Down");
+  }
   if (e.keyCode === 9) { // Tab Key
     e.preventDefault();
     handleTab(e);
   }
 })
+
+function swapLines(dir) {
+  let selStart = mdText.selectionStart;
+  let lines = mdText.value.split("\n");
+  let curLine = mdText.value.slice(0,selStart).split("\n").length - 1;
+  let upperLine = curLine > 0 ? curLine - 1 : 0;
+  let lowerLine = curLine < lines.length - 1 ? curLine + 1 : lines.length -1;
+  
+  
+  if (dir === "Up") {
+    let tmp = lines[curLine];
+    lines[curLine] = lines[upperLine];
+    lines[upperLine] = tmp;
+    mdText.value = lines.join("\n");
+    if (curLine >= 0 && curLine < lines.length) {
+      let cursorPos = selStart-lines[curLine].length-1;
+      cursorPos = cursorPos < 0 ? 0 : cursorPos;
+      mdText.setSelectionRange(cursorPos, cursorPos);
+    }
+  }
+  
+  if (dir === "Down") {
+    let tmp = lines[curLine];
+    lines[curLine] = lines[lowerLine];
+    lines[lowerLine] = tmp;
+    mdText.value = lines.join("\n");
+    if (curLine >= 0 && curLine < lines.length) {
+      let cursorPos = selStart+lines[curLine].length+1;
+      cursorPos = cursorPos < 0 ? 0 : cursorPos;
+      mdText.setSelectionRange(cursorPos, cursorPos);
+    }
+  }
+  
+  mdText.blur();
+  mdText.focus();
+
+}
 
 function handleTab(e) {
   // Should get tab length value from options. I'm going with 2
@@ -125,6 +171,9 @@ function handleTab(e) {
     return result.join("");
   }
    
+  mdText.blur();
+  mdText.focus();
+  
 }
 
 // Startup
