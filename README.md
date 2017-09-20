@@ -1,4 +1,5 @@
 ScragMark - Markdown enabled notes/bookmarks.
+Markdown syntax demo - https://goo.gl/CB4geC
 
 19/09/2017 23:42:01
 Live updates from popup to note tab 
