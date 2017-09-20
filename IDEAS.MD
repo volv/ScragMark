@@ -11,6 +11,7 @@
   * Set language (others wouldn't highlight properly unless the prefix before the backticks overrides).
   * Shortcut keys (Can probably control them through code. Haven't checked.)
   * Live update of tab on or off.
+  * Local / Sync save option. (All local currently)
 
 * Text input commands.
 * Different contexts (for multiple tabs).
