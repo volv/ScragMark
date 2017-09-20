@@ -1,0 +1,16 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  /* background: #0078C7; */
+  background: -webkit-radial-gradient(circle, #463030, #1360AE);
+}
+
+#output {
+  width: 80%;
+  max-width: 800px;
+  background: #EEEEEE;
+  margin: 10px auto;
+  padding: 10px;
+  border: solid black 2px;
+}
+

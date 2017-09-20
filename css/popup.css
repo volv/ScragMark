@@ -1,0 +1,42 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 10px;
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+/* Max popup height is 600 */
+/* Max popup width is  800  */
+
+#container {
+  position: relative;
+  align-items: left;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+#mdText {
+  box-sizing: border-box;
+  position: relative;
+  font-size: 18px;
+  min-width: 200px;
+  min-height: 200px;
+  max-height: 465px;
+  max-width: 610px;
+}
+
+#mdText::placeholder {
+  font-size: 18px;
+  font-weight: bold;
+}
+

@@ -1,15 +1,27 @@
 {
   "name": "ScragMark",
-  "version": "0.1",
+  "version": "0.2",
   "description": "Markdown Bookmark / Notes",
   "background": {
     "persistent": false,
-    "scripts": ["background.js"]
+    "scripts": ["js/background.js"]
   },
   "commands": {
     "ScragMark": {
       "suggested_key": { "default": "Alt+S" },
       "description": "ScragMark current URL"
+    },
+    "Open Tab": {
+      "suggested_key": { "default": "Alt+Z" },
+      "description": "Open stored data in new tab with formatting"
+    },
+    "_execute_browser_action": {
+      "suggested_key": {
+        "windows": "Alt+A",
+        "mac": "Alt+A",
+        "chromeos": "Alt+A",
+        "linux": "Alt+A"
+      }
     }
   },
   "browser_action": {
@@ -21,5 +33,6 @@
     "storage",
     "tabs"
   ],
+  "options_page": "options.html",
   "manifest_version": 2
 }
