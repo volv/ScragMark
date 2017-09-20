@@ -48,7 +48,7 @@ const getMdText = () => new Promise((resolve, reject) => {
 });
 
 const setMdText = (mdText) => new Promise((resolve, reject) => {
-  chrome.storage.local.set({'mdText': mdText}, resolve);
+  chrome.storage.local.set({'mdText': mdText, 'bookmarkAdded' : true}, resolve);
 });
 
 const getTabs = () => new Promise((resolve, reject) => {

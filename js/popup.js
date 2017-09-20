@@ -6,12 +6,17 @@ mdText.addEventListener("keydown", () => status.innerHTML = "Modified");
 
 // When data is changed in storage. Keep Text box and data in sync
 chrome.storage.onChanged.addListener(() => {
-  readStored().then(stored => updateMdText(stored.mdText));
+  readStored().then(stored => {
+    updateMdText(stored.mdText)
+    if (stored.bookmarkAdded) {
+      mdText.scrollTop = mdText.scrollHeight;
+    }
+  });
 });
 
 // Ditched library, made my own 'dirty' checker for smooth resize
 // Also saving everything continuously - Huge candidate for optimisation if extension ever seems slow
-setInterval(()=> {
+let autoSave = setInterval(()=> {
   requestAnimationFrame(() => {
     popup.style.width  = `${mdText.clientWidth+35}px`;  // Keep popup bigger than textarea
     saveAll();
@@ -29,11 +34,15 @@ const readStored = () => new Promise((resolve, reject) => {
 const updateMdText = (text) => mdText.value = text ? text : "";
 
 function saveAll() {
+  let height = window.getComputedStyle(mdText,null).getPropertyValue("height");
+  height = height.slice(0, height.length-2);
+  console.log("Height ", height, mdText.style.height)
   chrome.storage.local.set(
     {
       'mdText': mdText.value,
-      'mdTextWidth': mdText.clientWidth,
-      'mdTextHeight': mdText.clientHeight
+      'mdTextWidth': mdText.style.width,
+      'mdTextHeight': mdText.style.height,
+      'bookmarkAdded': false
     }, function() {
     status.innerHTML = "Saved";
   });
@@ -41,16 +50,20 @@ function saveAll() {
 
 // Called at startup. Persists popup size.
 const doOnetimeResize = (stored) => {
-  let width = 200;
-  let height = 200;
-  if (Number(stored.mdTextWidth)) {
-    width = Number(stored.mdTextWidth) < 200 ? 200 : Number(stored.mdTextWidth);
+  let width = `200px`;  // Some defaults
+  let height = `200px`;
+  if (stored.mdTextWidth) {
+    width = stored.mdTextWidth;
   }
-  if (Number(stored.mdTextHeight)) {
-    height = Number(stored.mdTextHeight) < 200 ? 200 : Number(stored.mdTextHeight);
+  if (stored.mdTextHeight) {
+    height = stored.mdTextHeight;
   }
-  mdText.style.width   = `${width}px`;
-  mdText.style.height  = `${height}px`;
+  // Values from maxes in CSS file. Can sometimes bug over the limit and get stuck.
+  width = Number(width.slice(0, width.length-2)) >= 610 ? "608px" : width;
+  height = Number(height.slice(0, height.length-2)) >= 465 ? "463px" : height;
+
+  mdText.style.width   = width;
+  mdText.style.height  = height;
 }
 
 // Startup
