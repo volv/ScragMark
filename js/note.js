@@ -3,30 +3,28 @@ const md = window.markdownit({
     if (lang && hljs.getLanguage(lang)) {
       try {
         return '<pre class="hljs"><code>' +
-               hljs.highlight(lang, str, true).value +
-               '</code></pre>';
-      } catch (__) {}
+          hljs.highlight(lang, str, true).value +
+          '</code></pre>';
+      } catch (__) { }
     }
 
     return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
   }
 });
 
-const output = document.getElementById("output"); 
+const scrollToBottom = (element) => element.scrollTop = element.scrollHeight;
 
-const getMdText = () => new Promise((resolve, reject) => {
+const renderMdText = (where) => new Promise((resolve) => {
   chrome.storage.local.get('mdText', result => {
-    let mdText = (result.mdText) ? result.mdText : "";
+    const mdText = result.mdText ? result.mdText : ""
+    where.innerHTML = md.render(mdText);
     resolve(mdText);
   });
 });
 
-getMdText()
-  .then(mdText => output.innerHTML = md.render(mdText))
-  // Scroll to bottom on page load. Another potential option.
-  .then(() => document.body.scrollTop = document.body.scrollHeight) 
+const output = document.getElementById("output");
 
-chrome.storage.onChanged.addListener(() => {
-  getMdText()
-    .then(mdText => output.innerHTML = md.render(mdText));
-});
+chrome.storage.onChanged.addListener(() => renderMdText(output)); // Live Updates
+
+renderMdText(output)                          // On page load
+  .then(() => scrollToBottom(document.body)); // Another potential option.

@@ -13,15 +13,15 @@
   * Live update of tab on or off.
   * Local / Sync save option. (All local currently)
 
-* Text input commands.
+* ~~Text input commands.~~ Now handles tabs and alt-up/down to switch lines
 * Different contexts (for multiple tabs).
 * Could look into pulling the popup out into a half window and pretend its docked.
-* Add title attribute to links in markdown if possible so output would reference long links in meantime while options are made.
+* ~~Add title attribute to links in markdown if possible so output would reference long links in meantime while options are made.~~ DONE. Make option?
 
 ### Issues?
-1. The save of everything is happening roughly 60 times a second atm. That might cause problems eventually so could be rethought (Although makes the live update nice and easy)
+1. The save of everything is happening roughly ~~60~~ 30 times a second atm. That might cause problems eventually so could be rethought (Although makes the live update nice and easy)
 
-1. API key should be moved out of main files
+1. ~~API key should be moved out of main files~~ - Might not really matter. Packaged with extension regardless
 
 ### Misc
  
