@@ -10,9 +10,16 @@
         <form id="formOptions">
           <input type="checkbox" id="shortenUrl">Shorten Links.<br>
           <input type="checkbox" id="doTitle">Show full link URL on mouseover.
+          <form id="popupForm">
+          <h3>Popup Dimensions:</h3>
+            Width: <input type="number" id="popupWidth" min="200" max="600">
+            Height: <input type="number" id="popupHeight" min="200" max="600">
+            <button id="popupDimensionsButton">Save Dimensions</button>
+            <br><em>minimum 200x200, maximum 600x600</em>
+            </form>
         </form> 
 
-        <script src="options.js"> </script>
+        <script src="js/options.js"> </script>
 
     </body>
 </html>
