@@ -12,19 +12,19 @@ const md = window.markdownit({
   }
 });
 
-const scrollToBottom = (element) => element.scrollTop = element.scrollHeight;
+const scrollToBottom = () => document.body.scrollTop = document.body.scrollHeight;
 
-const renderMdText = (where) => new Promise((resolve) => {
-  chrome.storage.local.get('mdText', result => {
-    const mdText = result.mdText ? result.mdText : ""
-    where.innerHTML = md.render(mdText);
-    resolve(mdText);
-  });
+const getMdText = () => new Promise((resolve) => {
+  chrome.storage.local.get('mdText', ({mdText=""}) => resolve(mdText));
 });
+
+const renderMdText = (mdText) => output.innerHTML = md.render(mdText);
+
+const getAndRenderMdText = async () => renderMdText(await getMdText());
+
+chrome.storage.onChanged.addListener(getAndRenderMdText); // Live Updates
 
 const output = document.getElementById("output");
 
-chrome.storage.onChanged.addListener(() => renderMdText(output)); // Live Updates
-
-renderMdText(output)                          // On page load
-  .then(() => scrollToBottom(document.body)); // Another potential option.
+getAndRenderMdText()           // On page load
+  .then(scrollToBottom);       // Another potential option.

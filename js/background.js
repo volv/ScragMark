@@ -1,5 +1,19 @@
 const bitUrlToken = "de87b3defa9c87bf1bbede1c9e07e415333e781e" // Should move this somewhere we can .gitignore it
 
+let options = {}; // Store of all options
+
+// On load
+chrome.storage.local.get('options', (result) => {
+  options = result.options || {};
+});
+
+// On change
+chrome.storage.onChanged.addListener((changes, something) => {
+  if (changes.options) { // Options were changed
+    options = changes.options.newValue;
+  }
+}); 
+
 chrome.commands.onCommand.addListener(command => {
 
   if (command === "ScragMark") {
@@ -15,23 +29,23 @@ chrome.commands.onCommand.addListener(command => {
 // Option should determine if short URL is used
 // Option should determine if Title Text is set.
 async function addBookmarkToStorage () { 
+  const doShorten = options.shortenUrl;
+  const doTitle = options.doTitle;
+
   let tabs = await getTabs();
   let url = tabs[0] ? tabs[0].url : "";
   let title = tabs[0] ? tabs[0].title : "";
   if (url === "" || title === "") {
     return;
   }
-  let shortUrl = await getShortBitUrl(url, bitUrlToken);
-  let mdText = await getMdText() + `\n* [${title}](${shortUrl} "${url}")`;
+  url = (doShorten) ? await getShortBitUrl(url, bitUrlToken) : url;
+  let mdText = await getMdText() + `\n* [${title}](${url} "${doTitle ? tabs[0].url : ""}")`;
   await setMdText(mdText)
   flashSavedBadge();
 }
 
 const getMdText = () => new Promise((resolve) => {
-  chrome.storage.local.get('mdText', result => {
-    const mdText = (result.mdText) ? result.mdText : "";
-    resolve(mdText);
-  });
+  chrome.storage.local.get('mdText', ({mdText=""}) => resolve(mdText));
 });
 
 const setMdText = (mdText) => new Promise((resolve) => {

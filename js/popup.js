@@ -44,6 +44,8 @@ function saveAll() {
 }
 
 // Also saving everything continuously - Huge candidate for optimisation if extension ever seems slow
+// Chrome saves us from ourselves here. onChanged event properly only fires on actual changed values
+// Doesn't fire every time I attempt a change at 30 FPS here. Good times.
 const autoSave = setInterval(()=> {
   requestAnimationFrame(() => {
     popup.style.width  = `${mdText.clientWidth+35}px`;  // Keep popup bigger than textarea
