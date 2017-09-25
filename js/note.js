@@ -1,28 +1,30 @@
-var md = window.markdownit({
+const md = window.markdownit({
   highlight: function (str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
         return '<pre class="hljs"><code>' +
-               hljs.highlight(lang, str, true).value +
-               '</code></pre>';
-      } catch (__) {}
+          hljs.highlight(lang, str, true).value +
+          '</code></pre>';
+      } catch (__) { }
     }
 
     return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
   }
 });
 
-const getMdText = () => new Promise((resolve, reject) => {
-  chrome.storage.local.get('mdText', result => {
-    let mdText = (result.mdText) ? result.mdText : "";
-    resolve(mdText);
-  });
+const scrollToBottom = () => document.body.scrollTop = document.body.scrollHeight;
+
+const getMdText = () => new Promise((resolve) => {
+  chrome.storage.local.get('mdText', ({mdText=""}) => resolve(mdText));
 });
 
-getMdText()
-  .then(mdText => document.getElementById("output").innerHTML = md.render(mdText));
+const renderMdText = (mdText) => output.innerHTML = md.render(mdText);
 
-chrome.storage.onChanged.addListener(() => {
-  getMdText()
-    .then(mdText => document.getElementById("output").innerHTML = md.render(mdText));
-});
+const getAndRenderMdText = async () => renderMdText(await getMdText());
+
+chrome.storage.onChanged.addListener(getAndRenderMdText); // Live Updates
+
+const output = document.getElementById("output");
+
+getAndRenderMdText()           // On page load
+  .then(scrollToBottom);       // Another potential option.
