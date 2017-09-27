@@ -1,21 +1,25 @@
-const defaultOptions = {
-  shortenUrl: false,
-  doTitle: true,
-  popupDimensions: [200,200],
-};
-
-let options = {}; // Store of all options
+// test load
+// console.log(options); // {}
 
 // On load
-chrome.storage.local.get('options', (result) => {
-  if (result.options) { // Stored exist
-    options = result.options;
-  } else {
-    options = defaultOptions;
-  }
-  setupOptionsPage();
-});
+// setupOptionsPage();
+getOptions().then( () => setupOptionsPage());
 
+
+// On load
+// chrome.storage.local.get('options', (result) => {
+  //   if (result.options) { // Stored exist
+  //     options = result.options;
+  //   } else {
+    //     options = defaultOptions;
+    //   }
+    //   setupOptionsPage();
+    // });
+    
+    
+// let options = {}; // Store of all options
+
+// Cache DOM
 const formOptions = document.getElementById("formOptions");
 const shortenUrl = document.getElementById("shortenUrl");
 const doTitle = document.getElementById("doTitle");
@@ -39,12 +43,10 @@ formOptions.addEventListener('change', () => {
   saveOptions();
 });
 
-const saveOptions = () => new Promise((resolve) => {
-  chrome.storage.local.set({'options': options}, resolve);
-});
-
 // popupbutton listener
 popupButton.addEventListener('click', function(){
   options.popupDimensions = [popupWidth.value, popupHeight.value];
   saveOptions();
 })
+
+
