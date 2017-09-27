@@ -23,6 +23,8 @@
 
 1. ~~API key should be moved out of main files~~ - Might not really matter. Packaged with extension regardless
 
+1. The 'Save' button on options.js causes page to flicker / refresh. How to stop that and keep the validation (built into HTML5)?
+
 ### Misc
  
 1. Further styling of new tabs page possibly. Barebones atm
