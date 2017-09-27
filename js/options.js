@@ -3,8 +3,10 @@
 
 // On load
 // setupOptionsPage();
-getOptions().then( () => setupOptionsPage());
-
+const config = new Config();
+// console.log(config.options);
+config.getOptions().then( () => setupOptionsPage());
+config.getOptions().then( () => console.log(config.options));
 
 // On load
 // chrome.storage.local.get('options', (result) => {
@@ -30,6 +32,7 @@ const popupButton = document.getElementById("popupDimensionsButton");
 // Options -> Form
 // Basically the reverse of the change event listener. Called at startup
 function setupOptionsPage() {
+  let options = config.options;
   shortenUrl.checked = options.shortenUrl;
   doTitle.checked = options.doTitle;
   popupWidth.value = options.popupDimensions[0];
@@ -38,15 +41,17 @@ function setupOptionsPage() {
 
 // Form -> Options
 formOptions.addEventListener('change', () => {
+  let options = config.options;
   options.shortenUrl = shortenUrl.checked;
   options.doTitle = doTitle.checked;
-  saveOptions();
+  config.saveOptions();
 });
 
 // popupbutton listener
 popupButton.addEventListener('click', function(){
+  let options = config.options;
   options.popupDimensions = [popupWidth.value, popupHeight.value];
-  saveOptions();
+  config.saveOptions();
 })
 
 
