@@ -1,18 +1,7 @@
 const bitUrlToken = "de87b3defa9c87bf1bbede1c9e07e415333e781e" // Should move this somewhere we can .gitignore it
 
-let options = {}; // Store of all options
-
 // On load
-chrome.storage.local.get('options', (result) => {
-  options = result.options || {};
-});
-
-// On change
-chrome.storage.onChanged.addListener((changes, something) => {
-  if (changes.options) { // Options were changed
-    options = changes.options.newValue;
-  }
-}); 
+config.getOptions();
 
 chrome.commands.onCommand.addListener(command => {
 
@@ -29,8 +18,8 @@ chrome.commands.onCommand.addListener(command => {
 // Option should determine if short URL is used
 // Option should determine if Title Text is set.
 async function addBookmarkToStorage () { 
-  const doShorten = options.shortenUrl;
-  const doTitle = options.doTitle;
+  const doShorten = config.options.shortenUrl;
+  const doTitle = config.options.doTitle;
 
   let tabs = await getTabs();
   let url = tabs[0] ? tabs[0].url : "";
