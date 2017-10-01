@@ -1,3 +1,5 @@
+
+
 const mdText = document.getElementById("mdText"); // The Markdown text box
 const popup = document.querySelector("html");     // The whole popup bubble itself
 
@@ -37,9 +39,10 @@ function saveAll() {
   chrome.storage.local.set(
     {
       'mdText': mdText.value,
-      'mdTextWidth': mdText.style.width,
-      'mdTextHeight': mdText.style.height,
-      'bookmarkAdded': false
+      'bookmarkAdded': false,
+      // 'options': {
+      //   'popupDimensions': [mdText.style.width, mdText.style.height]
+      // }
     });
 }
 

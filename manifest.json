@@ -5,7 +5,8 @@
   "options_page": "options.html",
   "background": {
     "persistent": false,
-    "scripts": ["js/background.js"]
+    "page": "background.html"
+    // "scripts": ["js/background.js"]
   },
   "commands": {
     "ScragMark": {

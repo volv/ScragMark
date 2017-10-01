@@ -4,15 +4,24 @@
         <title>ScragMark Options</title>
     </head>
     <body>
-
+        
         <h1>ScragMark Options</h1>
         
         <form id="formOptions">
-          <input type="checkbox" id="shortenUrl">Shorten Links.<br>
-          <input type="checkbox" id="doTitle">Show full link URL on mouseover.
-        </form> 
-
-        <script src="options.js"> </script>
+            <input type="checkbox" id="shortenUrl">Shorten Links.<br>
+            <input type="checkbox" id="doTitle">Show full link URL on mouseover.
+        </form>
+        <form id="popupForm">
+            <h3>Popup Dimensions:</h3>
+            Width: <input type="number" id="popupWidth" min="200" max="610">
+            Height: <input type="number" id="popupHeight" min="200" max="465">
+            <button id="popupDimensionsButton">Save Dimensions</button>
+            <br><em>minimum 200x200, maximum 610x465</em>
+        </form>
+        
+        
+        <script src="js/common.js"></script>
+        <script src="js/options.js"> </script>
 
     </body>
 </html>
