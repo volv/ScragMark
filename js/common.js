@@ -1,4 +1,3 @@
-// test
 console.log('common.js loaded');
 
 class Config {
@@ -9,15 +8,11 @@ class Config {
       popupDimensions: [200,200],
     };
     this.options = {};
-    this.allStored = {};
   }
 
   getAllStored() {
     return new Promise((resolve, reject) => {
-      chrome.storage.local.get(null, function (result) {
-        resolve(result);
-        // resolve(this.allStored);
-      });
+      chrome.storage.local.get(null, resolve);
     });
   }
 
@@ -29,7 +24,7 @@ class Config {
         } else {
           this.options = this.defaultOptions;
         }
-        resolve(this.options)
+        resolve();
       });
     });
   }
@@ -41,31 +36,11 @@ class Config {
   }
 }
 
+const config = new Config(); // config now available in all linked files.
 
-// const defaultOptions = {
-//   shortenUrl: false,
-//   doTitle: true,
-//   popupDimensions: [200,200],
-// };
-
-// let options = {}; // Store of all options
-
-// // On load
-// const getOptions = () => new Promise((resolve) => {
-//   chrome.storage.local.get('options', (result) => {
-//     if (result.options) { // Stored exist
-//       options = result.options;
-//     } else {
-//       options = defaultOptions;
-//     }
-//     resolve(options)
-//   });
-// });
-
-// const saveOptions = () => new Promise((resolve) => {
-//   chrome.storage.local.set({'options': options}, resolve);
-// });
-
-// // test
-// // getOptions().then( () => console.log(options));
-
+// On change
+chrome.storage.onChanged.addListener(changes => {
+  if (changes.options) { // Options were changed
+    config.getOptions(); // Keep congig.options current.
+  }
+});

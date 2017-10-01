@@ -1,25 +1,5 @@
-// test load
-// console.log(options); // {}
-
 // On load
-// setupOptionsPage();
-const config = new Config();
-// console.log(config.options);
-config.getOptions().then( () => setupOptionsPage());
-config.getOptions().then( () => console.log(config.options));
-
-// On load
-// chrome.storage.local.get('options', (result) => {
-  //   if (result.options) { // Stored exist
-  //     options = result.options;
-  //   } else {
-    //     options = defaultOptions;
-    //   }
-    //   setupOptionsPage();
-    // });
-    
-    
-// let options = {}; // Store of all options
+config.getOptions().then(setupOptionsPage);
 
 // Cache DOM
 const formOptions = document.getElementById("formOptions");
@@ -53,5 +33,3 @@ popupButton.addEventListener('click', function(){
   options.popupDimensions = [popupWidth.value, popupHeight.value];
   config.saveOptions();
 })
-
-

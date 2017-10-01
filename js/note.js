@@ -1,3 +1,4 @@
+// md becomes render function
 const md = window.markdownit({
   highlight: function (str, lang) {
     if (lang && hljs.getLanguage(lang)) {

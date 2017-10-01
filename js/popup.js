@@ -1,7 +1,20 @@
-
-
 const mdText = document.getElementById("mdText"); // The Markdown text box
 const popup = document.querySelector("html");     // The whole popup bubble itself
+
+// Startup
+popup.classList.add("fixResize");
+mdText.classList.add("fixResize");
+
+config.getOptions().then(() => {
+  config.getAllStored()
+    .then(stored => {
+      doOnetimeResize(stored)
+      updateMdText(stored.mdText);
+      mdText.scrollTop = mdText.scrollHeight;
+      mdText.focus();
+      mdText.setSelectionRange(mdText.value.length, mdText.value.length);
+    });
+  });
 
 // Send text to textarea
 const updateMdText = (text) => mdText.value = text;
@@ -28,21 +41,10 @@ mdText.addEventListener("keydown", (event) => {
 
 })
 
-// Returns all stored data
-const readAllStored = () => new Promise((resolve, reject) => {
-  chrome.storage.local.get(null, function (result) {
-    resolve(result);
-  });
-});
-
 function saveAll() {
-  chrome.storage.local.set(
-    {
+  chrome.storage.local.set({
       'mdText': mdText.value,
       'bookmarkAdded': false,
-      // 'options': {
-      //   'popupDimensions': [mdText.style.width, mdText.style.height]
-      // }
     });
 }
 
@@ -58,7 +60,7 @@ const autoSave = setInterval(()=> {
 
 // When data is changed in storage. Keep Text box and data in sync
 chrome.storage.onChanged.addListener(() => {
-  readAllStored().then(stored => {
+  config.getAllStored().then(stored => {
     if (stored.bookmarkAdded) { // Don't replace content in response to typing
       updateMdText(stored.mdText) 
       mdText.scrollTop = mdText.scrollHeight;
@@ -70,10 +72,11 @@ chrome.storage.onChanged.addListener(() => {
 const doOnetimeResize = (stored) => {
   let width = `200px`;  // Some defaults
   let height = `200px`;
-  if (stored.mdTextWidth) {
-    width = stored.mdTextWidth;
-    height = stored.mdTextHeight;
+  if (stored.options.popupDimensions) {
+    width = `${stored.options.popupDimensions[0]}px`;
+    height = `${stored.options.popupDimensions[1]}px`;
   }
+  
   // Values from maxes in CSS file. Can sometimes bug over the limit and get stuck.
   width = Number(width.slice(0, width.length-2)) >= 610 ? "608px" : width;
   height = Number(height.slice(0, height.length-2)) >= 465 ? "463px" : height;
@@ -81,17 +84,3 @@ const doOnetimeResize = (stored) => {
   mdText.style.width   = width;
   mdText.style.height  = height;
 }
-
-// Startup
-popup.classList.add("fixResize");
-mdText.classList.add("fixResize");
-
-readAllStored()
-  .then((stored) => {
-    doOnetimeResize(stored)
-    updateMdText(stored.mdText);
-    mdText.scrollTop = mdText.scrollHeight;
-    mdText.focus();
-    mdText.setSelectionRange(mdText.value.length, mdText.value.length);
-  })
-
